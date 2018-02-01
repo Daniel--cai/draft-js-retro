@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Editor, EditorState, CompositeDecorator } from 'draft-js';
+import { Editor, EditorState, CompositeDecorator, Entity } from 'draft-js';
 
 export default class BaseEditor extends React.Component {
     constructor(props) {
@@ -12,13 +12,13 @@ export default class BaseEditor extends React.Component {
     onChange = editorState => this.setState({ editorState });
 
     createWithPlainText = () => {
-        contentState = Draft.ContentState, createFromText("hello world")
+        contentState = Draft.ContentState.createFromText("hello world")
         newEditorState = Draft.EditorState.createWithContent(contentState)
         this.setState({ editorState })
     }
 
     createWithJason = (json) => {
-        const contentState  = Draft.convertFromRaw(json)
+        const contentState = Draft.convertFromRaw(json);
         newEditorState = Draft.EditorState.createWithContent(contentState)
         this.setState({ editorState })
     }
@@ -36,7 +36,7 @@ export default class BaseEditor extends React.Component {
 
 const Sticker = (props) => {
     const key = props.block.getEntityAt(0);
-    const { src } = Entitiy.get().getData();
+    const { src } = Entity.get().getData();
     return <img src={src} />
 }
 

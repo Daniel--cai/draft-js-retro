@@ -16,3 +16,6 @@ this.setState({
     showURLInput: false,
     urlValue: '',
 }
+
+
+//http://bitwiser.in/medium-draft/

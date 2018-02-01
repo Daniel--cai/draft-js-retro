@@ -1,22 +1,15 @@
 import React from 'react';
-import style from './Checkbox.css';
 import audio from '../assets/audio.m4a';
+import apple from '../assets/apple.jpg'
+import fish from '../assets/fish.jpg'
+import bread from '../assets/bread.jpg'
+import style from './Decorator.css'
 
-
-console.log(audio)
-
-export default class HashTag extends React.Component {
-    render() {
-        return (
-            // <span {...this.props} className="testlkjdf">
-            //     <input type="checkbox" className={style.box} />
-            //     {this.props.children}
-            // </span>
-            <span {...props} style={styles.handle}>{props.children}</span>
-        )
-    }
+const Seefood = {
+    'fish': fish,
+    'bread': bread,
+    'orange': apple,
 }
-
 
 export const SlackBot = (props) => {
     return (
@@ -29,9 +22,44 @@ export const SlackBot = (props) => {
     );
 };
 
+
+
+export class Fish extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            toggle: false
+        }
+        this.onHover = this.onHover.bind(this)
+    }
+
+    onHover = toggle => event => this.setState({ toggle })
+
+    render() {
+        const text = this.props.decoratedText.substr(8)
+        if (Seefood.hasOwnProperty(text)) {
+
+            return (
+                <span
+                    style={styles.handle}
+                    data-offset-key={this.props.offsetKey}
+                    onMouseEnter={this.onHover(true)}
+                    onMouseLeave={this.onHover(false)}
+                >
+                    {this.props.children} {this.state.toggle && <img src={Seefood[text]} className={style.image} />}
+                </span>
+            );
+        }
+        return <span {...this.props}>{this.props.children}</span>
+    }
+
+};
+
+
 const styles = {
     handle: {
-        color: 'rgba(98, 177, 254, 1.0)',
+        position: 'relative',
+        fontWeight: 'bold'
     },
     audio: {
         fontWeight: 'bold'
@@ -43,7 +71,7 @@ const HANDLE_REGEX = /react/g;
 const AUDIO_REGEX = /despacito/g
 const APPLE_REGEX = /apple/g
 const BREAD_REGEX = /bread/g
-const AWS_REGEX = /aws/g
+const FISH_REGEX = /seefood:\w+/g
 
 const Sound = new Audio(audio);
 
@@ -63,6 +91,16 @@ export const AudioComponent = (props) => {
         </span>
     );
 };
+
+export const breadStrategy = (contentBlock, callback, contentState) => {
+    findWithRegex(BREAD_REGEX, contentBlock, callback);
+}
+export const fishStrategy = (contentBlock, callback, contentState) => {
+    findWithRegex(FISH_REGEX, contentBlock, callback);
+}
+export const appleStrategy = (contentBlock, callback, contentState) => {
+    findWithRegex(APPLE_REGEX, contentBlock, callback);
+}
 
 
 export const slackBotStrategy = (contentBlock, callback, contentState) => {
