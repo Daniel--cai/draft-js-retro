@@ -1,0 +1,7 @@
+.body {
+    border: solid 1px #bbb;
+    font-family: Arial, Helvetica, sans-serif;
+    padding:5px;
+    margin: 50px;
+    font-size: 60px;
+}
